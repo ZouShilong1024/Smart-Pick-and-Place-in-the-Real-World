@@ -1,0 +1,19 @@
+<launch>
+    <!-- load urdf-->
+    <param name="robot_description" textfile="$(find rm_description)/urdf/SingleArm/easy_single_arm.urdf" />
+
+    <!-- bringup robot -->
+    <node pkg="rm_65_pkg" type="arm_75_bringup.py" name="arm_75_bringup" output="screen">
+    </node>
+
+    <!-- mount camera -->
+    <node pkg="rm_65_pkg" type="mount_camera.py" name="mount_camera_erdaiji_grasp_left" output="screen"></node>
+
+    <node pkg="rm_65_pkg" type="inspire_hand_bringup.py" name="inspire_hand_bringup" output="screen"></node>
+
+    <!-- publish joint state -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- launch rviz -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find rm_description)/config/singlearm.rviz" />
+</launch>

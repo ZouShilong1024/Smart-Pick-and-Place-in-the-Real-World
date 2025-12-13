@@ -1,0 +1,5 @@
+speechrecognition
+pyaudio
+faster-whisper
+pyrealsense2
+pymodbus==2.5.3

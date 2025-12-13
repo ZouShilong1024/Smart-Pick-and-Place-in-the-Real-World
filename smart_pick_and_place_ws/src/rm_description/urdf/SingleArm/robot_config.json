@@ -1,0 +1,119 @@
+
+
+{
+    "left_arm": {
+        "struct_type": "arm",
+        "joint_names": [
+            "joint1",
+            "joint2",
+            "joint3",
+            "joint4",
+            "joint5",
+            "joint6",
+            "joint7"
+        ],
+        "link_names": [
+            "base_link",
+            "Link1",
+            "Link2",
+            "Link3",
+            "Link4",
+            "Link5",
+            "Link6",
+            "Link7",
+            "arm_end_link"
+        ],
+        "controllable_joint_names": [
+            "joint1",
+            "joint2",
+            "joint3",
+            "joint4",
+            "joint5",
+            "joint6",
+            "joint7"
+        ],
+        "end_link": "arm_end_link",
+        "default_pose": {
+            "reset":[
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "mimic": {}
+    },
+    "left_hand": {
+        "struct_type": "hand",
+        "joint_names": [
+            "L_thumb_MCP_joint1",
+            "L_thumb_MCP_joint2",
+            "L_thumb_PIP_joint",
+            "L_thumb_DIP_joint",
+            "L_index_MCP_joint",
+            "L_index_DIP_joint",
+            "L_middle_MCP_joint",
+            "L_middle_DIP_joint",
+            "L_ring_MCP_joint",
+            "L_ring_DIP_joint",
+            "L_pinky_MCP_joint",
+            "L_pinky_DIP_joint"
+        ],
+        "link_names": [
+            "hand_base_link",
+            "left_thumb_1",
+            "left_thumb_2",
+            "left_thumb_3",
+            "left_thumb_4",
+            "left_index_1",
+            "left_index_2",
+            "left_middle_1",
+            "left_middle_2",
+            "left_ring_1",
+            "left_ring_2",
+            "left_little_1",
+            "left_little_2",
+            "L_hand_endeffector"
+        ],
+        "controllable_joint_names": [
+            "left_thumb_swing_joint",
+            "left_thumb_1_joint",
+            "left_index_1_joint",
+            "left_middle_1_joint",
+            "left_ring_1_joint",
+            "left_little_1_joint"
+        ],
+        "end_link": "L_hand_endeffector",
+        "default_pose": {
+            "reset":[
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "mimic": {
+            "left_thumb_1_joint": {
+                "left_thumb_2_joint": 0.60,
+                "left_thumb_3_joint": 0.8
+            },
+            "left_index_1_joint": {
+                "left_index_2_joint": 1.05
+            },
+            "left_middle_1_joint": {
+                "left_middle_2_joint": 1.05
+            },
+            "left_ring_1_joint": {
+                "left_ring_2_joint": 1.05
+            },
+            "left_little_1_joint": {
+                "left_little_2_joint": 1.18
+            }
+        }
+    }
+}
