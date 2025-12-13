@@ -581,10 +581,7 @@ class Planner:
                 for key, value in self.default_traj_js.items():
                     if "place" in key:
                         self.control_arm(pose_type=key, speed=30)
-
                         self.rgb, self.depth = self.get_camera_obs()
-                        # self.rgb = np.array(Image.open("/home/zz/ros_proj/smart_pick_and_place_ws/my_dataset/rgb/1765367068034756899.png"))
-                        # self.depth = np.array(Image.open("/home/zz/ros_proj/smart_pick_and_place_ws/my_dataset/depth/1765367068034756899.png"))
                         cprint(f"P=================== 3. Save current rgb and dpeth observations: {self.save_path} ===================", "cyan")
                         self.save_current_transformation()
                         placing_pos_world = self.get_placing_position(class_name=container, image=self.rgb, vis=False)
