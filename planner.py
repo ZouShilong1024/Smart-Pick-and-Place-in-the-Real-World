@@ -27,7 +27,7 @@ class Planner:
         self.checkpoint_path = anygrasp_model_path
         self.cam = RealSenseCapture(width=640, height=480, fps=30, save_path=save_path)
         model_path = whisper_model_path
-        self.listener = VoiceListener(model_path_or_size=model_path, device="cpu")
+        self.listener = VoiceListener(model_path_or_size=model_path, device="cuda")
         self.parser = CommandParser()
         self.yolo_model = YOLOWorld(yolo_model_path)
         self.transform = TransformationUtil()
