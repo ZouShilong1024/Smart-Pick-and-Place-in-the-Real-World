@@ -3,3 +3,4 @@ pyaudio
 faster-whisper
 pyrealsense2
 pymodbus==2.5.3
+ctranslate2==4.4.0

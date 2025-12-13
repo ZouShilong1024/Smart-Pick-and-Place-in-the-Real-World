@@ -131,7 +131,7 @@ class Planner:
             x1, y1, x2, y2 = det
             valid_boxes.append((x1, y1, x2, y2))
             for i, grasp_p in enumerate(grasp_points):
-                if grasp_p[0] > x1 - 30 and grasp_p[0] < x2 + 30 and grasp_p[1] > y1 - 30 and grasp_p[1] < y2 + 30:
+                if grasp_p[0] > x1 - 20 and grasp_p[0] < x2 + 20 and grasp_p[1] > y1 - 20 and grasp_p[1] < y2 + 20:
                     valid_indices.add(i)
             
             if len(valid_indices):
@@ -532,8 +532,8 @@ class Planner:
 
     def run_pipeline(self):
         while True:
-            # human_input = self.get_human_voice_input()
-            human_input = "将水果放在绿色碗里"
+            human_input = self.get_human_voice_input()
+            # human_input = "将水果放在绿色碗里"
             # human_input = "将瓶子放在粉色盘子里"
             # human_input = "将水果放在粉色盘子里"
             cprint(f"=================== 1. Get user voice input: \"{human_input}\"===================", "cyan")
