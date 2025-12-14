@@ -357,16 +357,16 @@ class Planner:
         except:
             return False
 
-    def control_arm(self, pose_type="default", speed=20, block=None):
+    def control_arm(self, pose_type="default", trajectory=None, speed=20):
         try:
             self.arm_controller.start_cmd()
             self.default_traj_js_rad = [data / 180 * np.pi for data in self.default_traj_js[pose_type].values()]
-            if block is not None:
-                self.arm_controller.add_js_cmd(self.default_traj_js[pose_type], speed=speed, block=block)
-            elif "post_take_photo" in pose_type:
-                self.arm_controller.add_js_cmd(self.default_traj_js[pose_type], speed=speed, block=False)
-            else:
+            if pose_type is not None:
                 self.arm_controller.add_js_cmd(self.default_traj_js[pose_type], speed=speed, block=True)
+            elif trajectory is not None:
+                for i in range(len(trajectory)):
+                    self.arm_controller.add_js_cmd({'J1': trajectory[i][0], 'J2': trajectory[i][1], 'J3': trajectory[i][2],
+                                                    'J4': trajectory[i][3], 'J5': trajectory[i][4], 'J6': trajectory[i][5], 'J7': trajectory[i][6]}, speed=speed, block=True)
             self.arm_controller.send_cmds(self.arm_client)
             self.arm_controller.reset_cmd()
             return True
@@ -424,14 +424,6 @@ class Planner:
         resp = self.send_cmd_twin(self.twin_client, cmd)
         return resp
 
-    def move_rm_js(self, trajectory=None, speed=10, use_block = True):
-        self.arm_controller.start_cmd()
-        for i in range(len(trajectory)):
-            self.arm_controller.add_js_cmd({'J1': trajectory[i][0], 'J2': trajectory[i][1], 'J3': trajectory[i][2],
-                                            'J4': trajectory[i][3], 'J5': trajectory[i][4], 'J6': trajectory[i][5], 'J7': trajectory[i][6]}, speed=speed, block=use_block)
-        self.arm_controller.send_cmds(self.arm_client)
-        self.arm_controller.reset_cmd()
-
     def visualization_3d_grasping_pose(self, grasping_pose_world, translation_matrix2=None):
         pose_matrix = grasping_pose_world
         print(f"Pose of grasping in root frame: {pose_matrix} \n \
@@ -485,7 +477,7 @@ class Planner:
         if state:
             trajectory_grasping = rsp["info"]["trajectory"]
             trajectory_grasping = np.array(copy.deepcopy(trajectory_grasping)) / np.pi * 180
-            self.move_rm_js(trajectory=trajectory_grasping, speed=20)
+            self.control_arm(trajectory=trajectory_grasping, speed=20)
             cprint(f"=============== Reach grasping pose =============")
             self.control_hand(cmd_type="close")
             # stop_event = threading.Event()
@@ -494,7 +486,7 @@ class Planner:
             cprint("=============== Close hand =============")
             time.sleep(0.5)
             # post_trajectory = copy.deepcopy(list(trajectory_grasping))[::-1]
-            # self.move_rm_js(trajectory=post_trajectory, speed=20, use_block = False)
+            # self.control_arm(trajectory=post_trajectory, speed=20, use_block = False)
             self.control_arm(pose_type=idx, speed=30)
             cprint(f"=============== Reach post grasping pose =============")
             return True
@@ -516,13 +508,13 @@ class Planner:
         if state:
             trajectory_placing = rsp["info"]["trajectory"]
             trajectory_placing = np.array(copy.deepcopy(trajectory_placing)) / np.pi * 180
-            self.move_rm_js(trajectory=trajectory_placing, speed=20)
+            self.control_arm(trajectory=trajectory_placing, speed=20)
             cprint(f"=============== Reach placing pose =============")
             time.sleep(0.5)
             self.control_hand(cmd_type="open")
             time.sleep(1)
             # post_trajectory = copy.deepcopy(list(trajectory_placing))[::-1]
-            # self.move_rm_js(trajectory=post_trajectory, speed=20, use_block = False)
+            # self.control_arm(trajectory=post_trajectory, speed=20, use_block = False)
             self.control_arm(pose_type="place1", speed=30)
             cprint(f"=============== Reach post grasping pose =============")
             return True
