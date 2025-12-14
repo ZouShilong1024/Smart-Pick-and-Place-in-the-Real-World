@@ -357,11 +357,11 @@ class Planner:
         except:
             return False
 
-    def control_arm(self, pose_type="default", trajectory=None, speed=20):
+    def control_arm(self, pose_type=None, trajectory=None, speed=20):
         try:
             self.arm_controller.start_cmd()
-            self.default_traj_js_rad = [data / 180 * np.pi for data in self.default_traj_js[pose_type].values()]
             if pose_type is not None:
+                self.default_traj_js_rad = [data / 180 * np.pi for data in self.default_traj_js[pose_type].values()]
                 self.arm_controller.add_js_cmd(self.default_traj_js[pose_type], speed=speed, block=True)
             elif trajectory is not None:
                 for i in range(len(trajectory)):
@@ -516,7 +516,7 @@ class Planner:
             # post_trajectory = copy.deepcopy(list(trajectory_placing))[::-1]
             # self.control_arm(trajectory=post_trajectory, speed=20, use_block = False)
             self.control_arm(pose_type="place1", speed=30)
-            cprint(f"=============== Reach post grasping pose =============")
+            cprint(f"=============== Reach post placing pose =============")
             return True
         else:
             cprint(f"********************* The placing pose is not reachable !! *********************", "yellow")
@@ -524,9 +524,10 @@ class Planner:
 
     def run_pipeline(self):
         while True:
-            human_input = self.get_human_voice_input()
+            # human_input = self.get_human_voice_input()
             # human_input = "将水果放在绿色碗里"
-            # human_input = "将瓶子放在粉色盘子里"
+            # human_input = "将盒子放在绿色碗里"
+            human_input = "将瓶子放在粉色盘子里"
             # human_input = "将水果放在粉色盘子里"
             cprint(f"=================== 1. Get user voice input: \"{human_input}\"===================", "cyan")
             if human_input and len(human_input.strip()) > 0:
@@ -568,7 +569,7 @@ class Planner:
 
                     if check_object:
                         break
-                cprint(f"P=================== 5. Successfully completed the grasping task ===================", "green")
+                cprint(f"G=================== 5. Successfully completed the grasping task ===================", "green")
                 # placement
                 for key, value in self.default_traj_js.items():
                     if "place" in key:
